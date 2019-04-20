@@ -19,6 +19,9 @@ class QuestionListView(ListView):
 
 class QuestionDetailView(DetailView):
     model = question
+
+
+
     
 
 

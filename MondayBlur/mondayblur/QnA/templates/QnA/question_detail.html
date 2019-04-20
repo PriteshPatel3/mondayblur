@@ -4,12 +4,22 @@
 	  <img class="rounded-circle article-img" src="">
 	  <div class="media-body">
 	    <div class="article-metadata">
-	      <a class="mr-2" href="#">{{ object.author }}</a>
-	      <small class="text-muted">{{ object.date_published|date:"F d, Y" }}</small>
+	      <a class="mr-2" href="#">{{ question.author }}</a>
+	      <small class="text-muted">{{ question.date_published|date:"F d, Y" }}</small>
 	    </div>
-	    <h2 class="article-title">{{ object.title }}</h2>
-			<p class="article-content">{{ object.content }}</p>
-			<p class="article-content">{{ object.comment }}</p>
+	    <h2 class="article-title">{{ question.title }}</h2>
+			<p class="article-content">{{ question.content }}</p>
+			<p class="article-content">{{ question.comment }}</p>
+			<hr>
+			{% for comment in question.comments.all %}
+				<img class="rounded-circle article-img" src="">
+				<a class="mr-2" href="#">{{ comment.author }}</a>
+				<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
+				<p style="border-left:6px solid grey; background-color:lightblue">{{ comment.comment }}</p>
+				<hr>
+			{% empty %}
+				<p>There is no comment</p>
+			{% endfor %}
 			<br>
 	  </div>
 	</article>

@@ -23,10 +23,11 @@ class question (models.Model):
         return self.title
 
 class comment(models.Model):
-    question = models.ForeignKey(question,on_delete=models.CASCADE)
+    question = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_published = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
+    approved = models.BooleanField(default=False)
 
     def approved(self):
         self.approved = True
