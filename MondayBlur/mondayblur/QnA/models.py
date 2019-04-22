@@ -24,7 +24,6 @@ class question (models.Model):
 
 class comment(models.Model):
     question = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")
-    slug = models.SlugField(max_length=100,unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_published = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
