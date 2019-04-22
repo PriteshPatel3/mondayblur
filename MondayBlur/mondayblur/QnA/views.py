@@ -22,10 +22,12 @@ class QuestionDetailView(DetailView):
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
 	model = comment
-	fields = ['author','comment','question']
+	fields = ['comment','question']
 
 	def form_valid(self, form):
+		form.instance.author = self.request.user
 		return super().form_valid(form)
+		
 
 
     
