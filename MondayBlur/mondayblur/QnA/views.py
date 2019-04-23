@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import question,comment
 from.forms import CommentForm
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.views.generic import ListView,TemplateView,DetailView,CreateView
 
 def home(request):
@@ -20,13 +21,29 @@ class QuestionListView(ListView):
 class QuestionDetailView(DetailView):
     model = question
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
-	model = comment
-	fields = ['comment','question']
 
-	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super().form_valid(form)
+
+
+def add_comment(request,slug):
+    post = get_object_or_404(question,slug=slug)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        form.instance.author = request.user
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            messages.success(request,f'You have successfully posted your comment!')
+            return redirect('qna')
+    else:
+        form = CommentForm
+
+    context ={
+        'form':form
+    }
+
+    return render(request,'QnA/comment_form.html',context)
+    
 		
 
 
