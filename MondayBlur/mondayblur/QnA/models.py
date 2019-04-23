@@ -11,6 +11,7 @@ class category (models.Model):
     def __str__(self):
         return self.category
 
+
 class question (models.Model):
     title = models.CharField(max_length=100) #use charfield to limit user input
     slug = models.SlugField(max_length=100)
@@ -24,7 +25,7 @@ class question (models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('question-detail', kwargs={'pk': self.pk})
+        return reverse('qna')
 
 class comment(models.Model):
     post = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")

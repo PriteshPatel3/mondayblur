@@ -21,6 +21,14 @@ class QuestionListView(ListView):
 class QuestionDetailView(DetailView):
     model = question
 
+class QuestionCreateView(CreateView):
+    model = question
+    fields = ['title','content','category']
+
+    def form_valid(self,form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 
 
@@ -42,7 +50,7 @@ def add_comment(request,slug):
         'form':form
     }
 
-    return render(request,'QnA/comment_form.html',context)
+    return render(request,'QnA/question_detail.html',context)
     
 		
 
