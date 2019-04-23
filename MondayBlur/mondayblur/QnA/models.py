@@ -25,7 +25,7 @@ class question (models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('qna')
+        return reverse('question-detail', args=[question.slug])
 
 class comment(models.Model):
     post = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")
