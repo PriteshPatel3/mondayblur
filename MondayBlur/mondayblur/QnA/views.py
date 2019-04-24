@@ -17,12 +17,16 @@ class QuestionListView(ListView):
     template_name = 'QnA/question.html'
     context_object_name = 'question'
 
+class QuestionCreateView(CreateView):
+    model = question
+    fields = ['title','slug','content','category']
+
+    def form_valid(self,form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class QuestionDetailView(DetailView):
     model = question
-
-
-
 
 def add_comment(request,slug):
     post = get_object_or_404(question,slug=slug)
@@ -43,6 +47,8 @@ def add_comment(request,slug):
     }
 
     return render(request,'QnA/comment_form.html',context)
+
+
     
 		
 

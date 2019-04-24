@@ -106,6 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -116,7 +118,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+EMAIL_HOST_USER = "pkcube666@gmail.com"
 
+EMAIL_HOST_PASSWORD = "1997913123a"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
