@@ -14,7 +14,8 @@ class category (models.Model):
 
 class question (models.Model):
     title = models.CharField(max_length=100) #use charfield to limit user input
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length
+    =100)
     content = models.TextField() #use TextField if there is no limit for the content
     date_published = models.DateTimeField(default=timezone.now) #auto-select the current time
     category = models.ForeignKey(category,on_delete=models.CASCADE)

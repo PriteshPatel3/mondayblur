@@ -16,6 +16,9 @@ class QuestionListView(ListView):
     model = question
     template_name = 'QnA/question.html'
     context_object_name = 'question'
+    ordering = ['-date_published']
+    paginate_by = 5
+	
 
 class QuestionCreateView(CreateView):
     model = question
@@ -47,6 +50,8 @@ def add_comment(request,slug):
     }
 
     return render(request,'QnA/comment_form.html',context)
+
+    
 
 
     
