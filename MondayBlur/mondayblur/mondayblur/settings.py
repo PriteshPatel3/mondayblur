@@ -125,3 +125,7 @@ EMAIL_HOST_PASSWORD = "1997913123a"
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#chnages default path of login to qna site
+LOGIN_REDIRECT_URL = 'qna'
+LOGIN_URL = 'login'
