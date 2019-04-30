@@ -38,6 +38,12 @@
 					<img class="rounded-circle article-img" src="">
 					<a class="mr-2" href="#">{{ comment.author }}</a>
 					<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
+					{% if comment.author == user %}
+						<div>
+							<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.slug question.id %}">Update</a>
+							<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">Delete</a>
+						</div>
+	      	{% endif %}
 					<p style="border-left:6px solid grey; background-color:lightblue">{{ comment.comment }}</p>
 				{% endif %}
 				<hr>
