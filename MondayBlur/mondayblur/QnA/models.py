@@ -11,11 +11,9 @@ class category (models.Model):
     def __str__(self):
         return self.category
 
-
 class question (models.Model):
     title = models.CharField(max_length=100) #use charfield to limit user input
-    slug = models.SlugField(max_length
-    =100)
+    slug = models.SlugField(max_length=100)
     content = models.TextField() #use TextField if there is no limit for the content
     date_published = models.DateTimeField(default=timezone.now) #auto-select the current time
     category = models.ForeignKey(category,on_delete=models.CASCADE)
@@ -31,6 +29,7 @@ class question (models.Model):
 
 class comment(models.Model):
     post = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")
+    r_token = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_published = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
@@ -44,7 +43,8 @@ class comment(models.Model):
         return self.comment
     
     def get_absolute_url(self):
-        return reverse('question-detail', args=[question.slug])
+        return reverse('qna')
+
 
 
 
