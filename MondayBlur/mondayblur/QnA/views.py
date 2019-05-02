@@ -76,25 +76,19 @@ class QuestionUpdateView(UpdateView):
 
 def vote(request,pk):
     post = get_object_or_404(comment,pk=pk)
-    liked = False
     if request.method == 'POST':
         if post.liked_by.filter(id=request.user.id).exists():
             post.liked_by.remove(request.user)
-            liked = False
             post.like -= 1
             post.save()
         else:
-            liked = True
             post.liked_by.add(request.user)
             post.like += 1
             post.save()
         return redirect('qna')
 
-    context ={
-        'liked':liked
-    }
 
-    return render(request,'QnA/like_form.html',context)
+    return render(request,'QnA/like_form.html',co)
 
 def add_comment(request,slug,pk):
     post = get_object_or_404(question,slug=slug,pk=pk)
