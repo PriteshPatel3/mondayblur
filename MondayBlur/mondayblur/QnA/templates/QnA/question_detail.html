@@ -25,11 +25,11 @@
 					<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
 					{% if comment.author == user %}
 						<div>
-							<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.slug question.id %}">Update</a>
-							<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">Delete</a>
+							<a class="btn btn-danger btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px" href="{% url 'comment-delete' comment.id %}">X</a>
+							<a class="btn btn-outline-info btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px; right:10px;"  href="{% url 'question-update' question.slug question.id %}">Update</a>
 						</div>
 	      	{% endif %}
-					<p style="border-left:6px solid grey; background-color:lightblue">{{ comment.comment }}</p>
+					<p style="border-left:6px solid grey; background-color:lightblue; display: block;">{{ comment.comment }}</p>
 					{% if object.author == user and comment.r_token == False  %}
 						<a href="{% url 'solution' comment.id %}">This solve my question !</a>
 					{% endif %}
@@ -40,17 +40,17 @@
 					<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
 					{% if comment.author == user %}
 						<div>
-							<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.slug question.id %}">Update</a>
-							<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">Delete</a>
+							<a class="btn btn-secondary btn-sm mt-1 mb-1" style="float:right;padding-bottom: 70px" href="{% url 'question-update' question.slug question.id %}">Update</a>
+							<a class="btn btn-danger btn-sm mt-1 mb-1" style="float:right" href="{% url 'comment-delete' comment.id %}">Delete</a>
 						</div>
 	      	{% endif %}
-					<p style="border-left:6px solid grey; background-color:lightblue">{{ comment.comment }}</p>
+					<p style="border-left:6px solid grey; background-color:lightblue;">{{ comment.comment }}</p>
 				{% endif %}
 				<hr>
 			{% empty %}
 				<p>There is no comment</p>
 			{% endfor %}
-			<a href="{% url 'add-comment' question.slug %}">Leave A Comment</a>
+			<a href="{% url 'add-comment' question.slug question.pk %}">Leave A Comment</a>
 			<br>
 	  </div>
 	</article>

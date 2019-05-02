@@ -23,10 +23,9 @@ class QuestionListView(ListView):
     paginate_by = 5
 
 
-	
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = question
-	success_url ='/'
+	success_url ='/QnA/'
 
 	def test_func(self):
 		post = self.get_object()
@@ -36,7 +35,7 @@ class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = comment
-	success_url ='/'
+	success_url = '/QnA/'
 
 	def test_func(self):
 		post = self.get_object()
@@ -80,8 +79,8 @@ class QuestionUpdateView(UpdateView):
 
 
 
-def add_comment(request,slug):
-    post = get_object_or_404(question,slug=slug)
+def add_comment(request,slug,pk):
+    post = get_object_or_404(question,slug=slug,pk=pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         form.instance.author = request.user
@@ -90,7 +89,7 @@ def add_comment(request,slug):
             comment.post = post
             comment.save()
             messages.success(request,f'You have successfully posted your comment!')
-            return redirect('qna')
+            return redirect('question-detail',slug=slug,pk=pk)
     else:
         form = CommentForm()
 

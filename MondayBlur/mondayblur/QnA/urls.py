@@ -12,7 +12,7 @@ urlpatterns = [
     path('question/<slug:slug>/<int:pk>/delete/', QuestionDeleteView.as_view(),name='question-delete'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(),name='comment-delete'),
     path("newquestion/", QuestionCreateView.as_view(), name='new-question'),
-    path("question/<slug:slug>/comment/", views.add_comment, name='add-comment'),
+    path("question/<slug:slug>/<int:pk>/comment/", views.add_comment, name='add-comment'),
     path("comment/<int:pk>/solution/", SolutionView.as_view(), name='solution'),
 ]
 if settings.DEBUG:
