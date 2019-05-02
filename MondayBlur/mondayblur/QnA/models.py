@@ -27,8 +27,11 @@ class question (models.Model):
         return reverse('qna')
 
 
+
 class comment(models.Model):
     post = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")
+    liked_by = models.ManyToManyField(User,related_name='liked_by',blank = True)
+    like = models.IntegerField(default=0)
     r_token = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_published = models.DateTimeField(default=timezone.now)
@@ -44,7 +47,6 @@ class comment(models.Model):
     
     def get_absolute_url(self):
         return reverse('qna')
-
 
 
 
