@@ -15,16 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from User import views
+from users import views
 from django.contrib.auth import views as auth_views
+from users.views import ProfileListView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('QnA.urls')),
     path('register/', views.register, name='register'),
-    path('profile/', views.profile, name='profile'),
-    path('login/', auth_views.LoginView.as_view(template_name='User/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='User/logout.html'), name='logout'),
+    path('profile/', ProfileListView.as_view(template_name='users/profile.html'), name='profile'),
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     
 ]

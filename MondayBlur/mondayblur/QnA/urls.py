@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
 from .views import home,QuestionListView,QuestionDetailView,QuestionCreateView,SolutionView,QuestionUpdateView,QuestionDeleteView,CommentDeleteView
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', home, name='home'),
     path("QnA/", QuestionListView.as_view(), name="qna"),
@@ -12,3 +15,5 @@ urlpatterns = [
     path("question/<slug:slug>/comment/", views.add_comment, name='add-comment'),
     path("comment/<int:pk>/solution/", SolutionView.as_view(), name='solution'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'QnA',
-    'User',
+    'users',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -125,6 +125,9 @@ EMAIL_HOST_PASSWORD = "1997913123a"
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 #chnages default path of login to qna site
 LOGIN_REDIRECT_URL = 'qna'

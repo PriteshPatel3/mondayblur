@@ -12,12 +12,17 @@ def home(request):
     }
     return render(request, 'QnA/homepage.html',context)
 
+
+
+
 class QuestionListView(ListView):
     model = question
     template_name = 'QnA/question.html'
     context_object_name = 'question'
     ordering = ['-date_published']
     paginate_by = 5
+
+
 	
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = question

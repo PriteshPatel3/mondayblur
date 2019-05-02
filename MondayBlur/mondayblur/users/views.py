@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegisterForm, User
+from QnA.models import question
+from django.views.generic import ListView
 
 def register(request):
     if request.method == "POST":
@@ -13,13 +15,15 @@ def register(request):
             return redirect("login")
     else:
         form = UserRegisterForm()
-    return render(request, 'User/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form})
 
-def profile(request):
-    if User.is_anonymous:
-        messages.warning(request, f'Please login!')
-        return redirect("login")
-        
-    return render(request, 'user/profile.html')
+
+class ProfileListView(ListView):
+    model = question
+    template_name : 'users/profile.html'
+    context_object_name = 'question'
+    ordering = ['-date_published']
+    paginate_by = 5      
+
 
 

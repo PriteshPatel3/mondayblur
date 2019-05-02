@@ -5,7 +5,7 @@
 	  <img class="rounded-circle article-img" src="">
 	  <div class="media-body">
 	    <div class="article-metadata">
-	      <a class="mr-2" href="#">{{ question.author }}</a>
+	      <a class="mr-2" href="#">{{ question.author.username }}</a>
 				<small class="text-muted">{{ question.date_published|date:"F d, Y" }}</small>
 				{% if object.author == user %}
 	      	<div>
