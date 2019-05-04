@@ -42,6 +42,7 @@ class comment(models.Model):
         self.approved = True
         self.save()
 
+        return liked
     def __str__(self):
         return self.comment
     

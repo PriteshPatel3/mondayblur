@@ -2,7 +2,7 @@
 {% load static %}
 {% block content%}
 	<article class="media content-section">
-	  <img class="rounded-circle article-img" src="">
+	  <img class="rounded-circle article-img" src="#">
 	  <div class="media-body">
 	    <div class="article-metadata">
 	      <a class="mr-2" href="#">{{ question.author.username }}</a>
@@ -10,7 +10,7 @@
 				{% if object.author == user %}
 	      	<div>
 	      		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.slug question.id %}">Update</a>
-	      		<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' question.slug question.id %}">Delete</a>
+	      		<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' question.slug question.id %}"><img src="{% static 'Image/delete.png' %}"> Delete</a>
 	      	</div>
 	      {% endif %}
 	    </div>
@@ -25,15 +25,22 @@
 					<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
 					{% if comment.author == user %}
 						<div>
-							<a class="btn btn-danger btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px" href="{% url 'comment-delete' comment.id %}">X</a>
-							<a class="btn btn-outline-info btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px; right:10px;"  href="{% url 'question-update' question.slug question.id %}">Update</a>
+							<a class="btn btn-danger btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px" href="{% url 'comment-delete' comment.id %}"><img src="{% static 'Image/delete.png' %}"></a>
 						</div>
 					{% endif %}
+
+					{% if user in comment.liked_by.all %}
 						<form method="post">
 							{% csrf_token %}
-							<a class="btn" href="{% url 'vote' comment.id%}">Like
-							</a>
+							<a class="btn" href="{% url 'vote' comment.id%}"><img src="{% static 'Image/dislike.png' %}"> dislike</a>
 						</form>
+					{% else %}
+						<form method="post">
+							{% csrf_token %}
+							<a class="btn" href="{% url 'vote' comment.id%}"><img src="{% static 'Image/like.png' %}"> Like</a>
+						</form>
+					{% endif %}
+
 						<p style="border-left:6px solid grey; background-color:lightblue; display: block;">{{ comment.comment }}</p>
 					{% if object.author == user and comment.r_token == False  %}
 						<a href="{% url 'solution' comment.id %}">This solve my question !</a>

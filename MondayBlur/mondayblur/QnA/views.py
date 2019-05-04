@@ -83,12 +83,17 @@ def vote(request,pk):
             post.save()
         else:
             post.liked_by.add(request.user)
+
             post.like += 1
             post.save()
         return redirect('qna')
+    
+    context={
+
+    }
 
 
-    return render(request,'QnA/like_form.html',co)
+    return render(request,'QnA/like_form.html',context)
 
 def add_comment(request,slug,pk):
     post = get_object_or_404(question,slug=slug,pk=pk)
