@@ -54,17 +54,6 @@ class QuestionCreateView(CreateView):
 class QuestionDetailView(DetailView):
     model = question
 
-class SolutionView(UpdateView):
-    model = comment
-    template_name = 'QnA/solution_form.html'
-    fields = ['r_token']
-
-    def form_valid(self,form):
-        if form.instance.r_token == False:
-            form.instance.r_token = True
-        elif form.instance.r_token == True:
-            form.instance.r_token = False
-        return super().form_valid(form)
 
 class QuestionUpdateView(UpdateView):
     model = question
@@ -72,7 +61,20 @@ class QuestionUpdateView(UpdateView):
     
     def form_valid(self,form):
         form.instance.author = self.request.user
-        return super().form_valid(form)        
+        return super().form_valid(form)
+
+def SolutionView(request,pk):
+    post = get_object_or_404(comment,pk=pk)
+    if request.method =='POST':
+        if post.r_token == False:
+            post.r_token = True
+            post.save()
+        else:
+            post.r_token = False
+            post.save()
+        return redirect('qna')
+    
+    return render(request,'QnA/solution_form.html')
 
 def question_like(request,pk,slug):
     post = get_object_or_404(question,pk=pk,slug=slug)

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User #To use django authentication system
 from django.urls import reverse #to get reverse
-#from PIL import Image #easy saving and manipulating of image 
+from PIL import Image #easy saving and manipulating of image 
 
 class category (models.Model):
     category = models.CharField(max_length=100)
