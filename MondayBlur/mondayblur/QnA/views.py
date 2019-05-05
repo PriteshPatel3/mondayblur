@@ -1,10 +1,12 @@
 from django.shortcuts import render,get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from .models import question,comment
+from .models import *
 from.forms import CommentForm,SolutionForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.generic import ListView,TemplateView,DetailView,CreateView,UpdateView,DeleteView
+from django.shortcuts import render
+from django.http import HttpResponse
 
 def home(request):
     context={
@@ -137,6 +139,19 @@ def add_comment(request,slug,pk):
 
     return render(request,'QnA/comment_form.html',context)
 
+def search_form(request):
+    return render(request, 'QnA/search_form.html')
+
+def search(request):
+    error = False
+    if 'q' in request.GET:
+        q = request.GET['q']
+        if not q:
+            error = True
+        else:
+            questions = question.objects.filter(title__icontains=q)
+            return render(request, 'QnA/search_results.html', {'questions': questions, 'query': q})
+    return render(request, 'QnA/search_form.html', {'error': error})
     
 
 
