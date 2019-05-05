@@ -13,6 +13,8 @@ class category (models.Model):
 
 class question (models.Model):
     title = models.CharField(max_length=100) #use charfield to limit user input
+    liked_by = models.ManyToManyField(User,related_name='liked_by_question',blank = True)
+    like = models.IntegerField(default=0)
     slug = models.SlugField(max_length=100)
     content = models.TextField() #use TextField if there is no limit for the content
     date_published = models.DateTimeField(default=timezone.now) #auto-select the current time

@@ -74,7 +74,27 @@ class QuestionUpdateView(UpdateView):
         form.instance.author = self.request.user
         return super().form_valid(form)        
 
-def vote(request,pk):
+def question_like(request,pk,slug):
+    post = get_object_or_404(question,pk=pk,slug=slug)
+    if request.method == 'POST':
+        if post.liked_by.filter(id=request.user.id).exists():
+            post.liked_by.remove(request.user)
+            post.like -= 1
+            post.save()
+        else:
+            post.liked_by.add(request.user)
+            post.like += 1
+            post.save()
+        return redirect('qna')
+    
+    context={
+
+    }
+
+
+    return render(request,'QnA/questionlike_form.html',context)
+
+def comment_like(request,pk):
     post = get_object_or_404(comment,pk=pk)
     if request.method == 'POST':
         if post.liked_by.filter(id=request.user.id).exists():
