@@ -21,11 +21,13 @@
 			{% if user in question.liked_by.all %}
 						<form method="post">
 							{% csrf_token %}
+							<small>Likes :{{ question.liked_by.count }}</small>
 							<a class="btn" href="{% url 'vote_question' question.slug question.pk %}"><img src="{% static 'Image/dislike.png' %}"> dislike</a>
 						</form>
 					{% else %}
 						<form method="post">
 							{% csrf_token %}
+							<small>Likes :{{ question.liked_by.count }}</small>
 							<a class="btn" href="{% url 'vote_question' question.slug question.pk %}"><img src="{% static 'Image/like.png' %}"> Like</a>
 						</form>
 					{% endif %}
@@ -45,11 +47,13 @@
 					{% if user in comment.liked_by.all %}
 						<form method="post">
 							{% csrf_token %}
-							<a class="btn" href="{% url 'vote' comment.id%}"><img src="{% static 'Image/dislike.png' %}"> dislike</a>
+							<small>Likes :{{ comment.liked_by.count }}</small>
+							<a class="btn" href="{% url 'vote' comment.id%}"><img src="{% static 'Image/dislike.png' %}"> {{ comment.liked_by.count }} dislike</a>
 						</form>
 					{% else %}
 						<form method="post">
 							{% csrf_token %}
+							<small>Likes :{{ comment.liked_by.count }}</small>
 							<a class="btn" href="{% url 'vote' comment.id%}"><img src="{% static 'Image/like.png' %}"> Like</a>
 						</form>
 					{% endif %}
