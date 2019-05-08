@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from .models import *
+from .models import question,category,comment
 from.forms import CommentForm,SolutionForm
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -15,7 +15,15 @@ def home(request):
     return render(request, 'QnA/homepage.html',context)
 
 
+class UserProfileView(ListView):
+    model = question
+    template_name = 'QnA/user_profile.html'
+    context_object_name = 'question'
+    paginate_by = 5
 
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return question.objects.filter(author=user).order_by('-date_published')
 
 class QuestionListView(ListView):
     model = question
@@ -26,24 +34,24 @@ class QuestionListView(ListView):
 
 
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-	model = question
-	success_url ='/QnA/'
+    model = question
+    success_url ='/QnA/'
 
-	def test_func(self):
-		post = self.get_object()
-		if self.request.user == post.author:
-			return True
-		return False
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-	model = comment
-	success_url = '/QnA/'
+    model = comment
+    success_url = '/QnA/'
 
-	def test_func(self):
-		post = self.get_object()
-		if self.request.user == post.author:
-			return True
-		return False
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 class QuestionCreateView(CreateView):
     model = question
@@ -156,7 +164,7 @@ def search(request):
 
 
     
-		
+        
 
 
     

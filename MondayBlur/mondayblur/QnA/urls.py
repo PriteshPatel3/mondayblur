@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import home,QuestionListView,QuestionDetailView,QuestionCreateView,SolutionView,QuestionUpdateView,QuestionDeleteView,CommentDeleteView
+from .views import home,QuestionListView,QuestionDetailView,QuestionCreateView,SolutionView,QuestionUpdateView,QuestionDeleteView,CommentDeleteView,UserProfileView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -8,6 +8,7 @@ urlpatterns = [
     path('', home, name='home'),
     path("QnA/", QuestionListView.as_view(), name="qna"),
     path("question/<slug:slug>/<int:pk>/", QuestionDetailView.as_view(), name='question-detail'),
+    path('user/<str:username>', UserProfileView.as_view(), name='user-profile'),
     path('question/<slug:slug>/<int:pk>/update/', QuestionUpdateView.as_view(),name='question-update'),
     path('question/<slug:slug>/<int:pk>/delete/', QuestionDeleteView.as_view(),name='question-delete'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(),name='comment-delete'),
