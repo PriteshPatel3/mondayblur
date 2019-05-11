@@ -150,18 +150,7 @@ def add_comment(request,slug,pk):
 def search_form(request):
     return render(request, 'QnA/search_form.html')
 
-def CategoryView(request,category_slug):
-    categories = category.objects.all()
-    questions = question.objects.all()
-    if category_slug:
-        Category = get_object_or_404(category,slug=category_slug)
-        questions = question.objects.filter(category=Category)
 
-    context ={
-        'categories':categories,
-        'questions':questions
-    }   
-    return render(request,'QnA/category.html',context)
 
 class QuestionCategory(ListView):
     model = question
