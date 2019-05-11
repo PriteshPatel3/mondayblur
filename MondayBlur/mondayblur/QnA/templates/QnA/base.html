@@ -26,16 +26,23 @@
 	      </button>
 	      <div class="collapse navbar-collapse" id="navbarToggle">
 	        <div class="navbar-nav mr-auto">
-						<a class="nav-item nav-link" href="{% url 'qna' %}">QnA</a>
-						<a class="nav-item nav-link" href="{% url 'search-form' %}">Search</a>
+						{% if error %}
+					
+						{% endif %}
+						<form class="form-inline" action="/search/" method="get">
+								<input class="form-control mr-sm-2" type="text" name="q">
+								<button class="btn btn-info" type="submit">
+										<span class="glyphicon glyphicon-search"></span> Search
+								</button>
+						</form>
 	        </div>
 	        </div>
 	        <!-- Navbar Right Side -->
 	        <div class="navbar-nav">
 	          {% if user.is_authenticated %}
-	            <a class="nav-item nav-link" href="{% url 'new-question' %}"><span class="glyphicon glyphicon-user"></span>New Post</a>
-	            <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-	          	<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+						<a class="nav-item nav-link" href="{% url 'profile' %}"><img class="rounded-circle article-img" style="width:30px;height:30px"src="{{ user.profile.image.url }}">Profile</a>
+						<a class="nav-item nav-link" href="{% url 'new-question' %}"><span class="glyphicon glyphicon-user"></span>New Post</a>
+						<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
 
 	          {% else %}
 	         	 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
