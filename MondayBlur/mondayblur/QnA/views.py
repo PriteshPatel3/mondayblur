@@ -150,6 +150,32 @@ def add_comment(request,slug,pk):
 def search_form(request):
     return render(request, 'QnA/search_form.html')
 
+def CategoryView(request,category_slug):
+    categories = category.objects.all()
+    questions = question.objects.all()
+    if category_slug:
+        Category = get_object_or_404(category,slug=category_slug)
+        questions = question.objects.filter(category=Category)
+
+    context ={
+        'categories':categories,
+        'questions':questions
+    }   
+    return render(request,'QnA/category.html',context)
+
+class QuestionCategory(ListView):
+    model = question
+    template_name='QnA/category.html'
+
+    def get_queryset(self):
+        self.Category = get_object_or_404(category,slug=self.kwargs['slug'])
+        return question.objects.filter(category=self.Category)
+
+    def get_context_data(self,**kwargs):
+        context = super(QuestionCategory,self).get_context_data(**kwargs)
+        context['category']= self.Category
+        return context
+
 def search(request):
     error = False
     if 'q' in request.GET:

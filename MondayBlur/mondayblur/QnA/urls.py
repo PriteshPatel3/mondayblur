@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import home,QuestionListView,QuestionDetailView,QuestionCreateView,SolutionView,QuestionUpdateView,QuestionDeleteView,CommentDeleteView,UserProfileView
+from .views import QuestionCategory,home,QuestionListView,QuestionDetailView,QuestionCreateView,SolutionView,QuestionUpdateView,QuestionDeleteView,CommentDeleteView,UserProfileView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path("question/<slug:slug>/<int:pk>/vote/", views.question_like, name='vote_question'),
     path("QnA/search-form/", views.search_form,name='search-form'),
     path("search/", views.search),
+    path("category/<slug:slug>/",QuestionCategory.as_view(),name="category")
     
 ]
 if settings.DEBUG:

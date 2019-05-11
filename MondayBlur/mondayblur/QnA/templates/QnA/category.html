@@ -1,7 +1,8 @@
 {% extends "QnA/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-	{% for question in question %}
+    <h1>{{ category.category }}</h1>
+	{% for question in question_list %}
 		<article class="media content-section">
 		  <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}">
 		  <div class="media-body">
@@ -11,7 +12,9 @@
 		    </div>
 				<h2><a class="article-title" style="display : inline" href="{% url 'question-detail' question.slug question.pk %}" >{{ question.title }}</a></h2>
 				<a href="{{ question.category.get_absolute_url}}"><small class="article-title" style="float: right" >Category: {{ question.category }}</small></a>
-				<small class="article-title" style="float: left" ><a href="{% url 'question-detail' question.slug question.pk %}">Comment</a></small>
+                <small class="article-title" style="float: left" ><a href="{% url 'question-detail' question.slug question.pk %}">Comment</a></small>
+
+
 
 				
 

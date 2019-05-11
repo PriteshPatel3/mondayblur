@@ -62,8 +62,8 @@
 	          	<a class="nav-item nav-link" href="logout">Logout</a>
 
 	          {% else %}
-	         	 <a class="nav-item nav-link" href="login">Login</a>
-	             <a class="nav-item nav-link" href="register">Register</a>
+	         	 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+	             <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
               {% endif %}
     <!--End Nav Bar-->
 
