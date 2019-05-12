@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from QnA.models import comment
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -10,4 +11,21 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+#database for points
+class Reward(models.Model): 
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+
+    
+
+
+
+
+
+
+
+
+        
+
 
