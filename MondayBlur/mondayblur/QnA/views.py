@@ -15,15 +15,8 @@ def home(request):
     return render(request, 'QnA/homepage.html',context)
 
 
-class UserProfileView(ListView):
-    model = question
-    template_name = 'QnA/user_profile.html'
-    context_object_name = 'question'
-    paginate_by = 5
 
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return question.objects.filter(author=user).order_by('-date_published')
+#### Question Module ####
 
 class QuestionListView(ListView):
     model = question
@@ -32,20 +25,9 @@ class QuestionListView(ListView):
     ordering = ['-date_published']
     paginate_by = 5
 
-
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = question
     success_url ='/QnA/'
-
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.author:
-            return True
-        return False
-
-class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = comment
-    success_url = '/QnA/'
 
     def test_func(self):
         post = self.get_object()
@@ -72,6 +54,72 @@ class QuestionUpdateView(UpdateView):
     def form_valid(self,form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class QuestionCategory(ListView):
+    model = question
+    template_name='QnA/category.html'
+
+    def get_queryset(self):
+        self.Category = get_object_or_404(category,slug=self.kwargs['slug'])
+        return question.objects.filter(category=self.Category)
+
+    def get_context_data(self,**kwargs):
+        context = super(QuestionCategory,self).get_context_data(**kwargs)
+        context['category']= self.Category
+        return context
+
+#### End of Question Module ###
+
+#### User Profile Module ####
+
+class UserProfileView(ListView):
+    model = question
+    template_name = 'QnA/user_profile.html'
+    context_object_name = 'question'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return question.objects.filter(author=user).order_by('-date_published')
+
+#### End Of User Profile Module ####
+
+
+#### Comment Module ####
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = comment
+    success_url = '/QnA/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+def add_comment(request,slug,pk):
+    post = get_object_or_404(question,slug=slug,pk=pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        form.instance.author = request.user
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            messages.success(request,f'You have successfully posted your comment!')
+            return redirect('question-detail',slug=slug,pk=pk)
+    else:
+        form = CommentForm()
+
+    context ={
+        'form':form
+    }
+
+    return render(request,'QnA/comment_form.html',context)
+
+#### End Of Comment Module ###
+
+#### Reward Module ####
 
 def SolutionView(request,pk):
     post = get_object_or_404(comment,pk=pk)
@@ -127,42 +175,20 @@ def comment_like(request,pk):
 
     return render(request,'QnA/like_form.html',context)
 
-def add_comment(request,slug,pk):
-    post = get_object_or_404(question,slug=slug,pk=pk)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        form.instance.author = request.user
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            messages.success(request,f'You have successfully posted your comment!')
-            return redirect('question-detail',slug=slug,pk=pk)
-    else:
-        form = CommentForm()
+#### End Of Reward Module ###
 
-    context ={
-        'form':form
-    }
 
-    return render(request,'QnA/comment_form.html',context)
+<<<<<<< HEAD
+
+=======
+#### Search Module ####
+def search_form(request):
+    return render(request, 'QnA/search_form.html')
+>>>>>>> ea5ff522c90771a91eff620bcd174a2c79dae424
 
 
 
 
-
-class QuestionCategory(ListView):
-    model = question
-    template_name='QnA/category.html'
-
-    def get_queryset(self):
-        self.Category = get_object_or_404(category,slug=self.kwargs['slug'])
-        return question.objects.filter(category=self.Category)
-
-    def get_context_data(self,**kwargs):
-        context = super(QuestionCategory,self).get_context_data(**kwargs)
-        context['category']= self.Category
-        return context
 
 def search(request):
     error = False
@@ -174,6 +200,8 @@ def search(request):
             questions = question.objects.filter(title__icontains=search)
             return render(request, 'QnA/search_results.html', {'questions': questions, 'query': search})
     return render(request, 'QnA/search_form.html', {'error': error})
+
+#### End Of Search Module ####
     
 
 
