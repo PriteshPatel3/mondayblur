@@ -147,8 +147,7 @@ def add_comment(request,slug,pk):
 
     return render(request,'QnA/comment_form.html',context)
 
-def search_form(request):
-    return render(request, 'QnA/search_form.html')
+
 
 
 
@@ -167,13 +166,13 @@ class QuestionCategory(ListView):
 
 def search(request):
     error = False
-    if 'q' in request.GET:
-        q = request.GET['q']
-        if not q:
+    if 'search' in request.GET:
+        search = request.GET['search']
+        if not search:
             error = True
         else:
-            questions = question.objects.filter(title__icontains=q)
-            return render(request, 'QnA/search_results.html', {'questions': questions, 'query': q})
+            questions = question.objects.filter(title__icontains=search)
+            return render(request, 'QnA/search_results.html', {'questions': questions, 'query': search})
     return render(request, 'QnA/search_form.html', {'error': error})
     
 
