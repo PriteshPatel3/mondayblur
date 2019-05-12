@@ -12,8 +12,8 @@ def register(request):
         if form.is_valid():
             form.save() #adds user to database
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Successfully created account: {username}. Please login!')
-            return redirect("login")
+            messages.success(request, f'Successfully created account: {username}. Please login and add a Profile Picture!')
+            return redirect("profile_update")
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
