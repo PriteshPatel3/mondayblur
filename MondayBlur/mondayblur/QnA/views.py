@@ -178,9 +178,13 @@ def comment_like(request,pk):
 #### End Of Reward Module ###
 
 
+<<<<<<< HEAD
+
+=======
 #### Search Module ####
 def search_form(request):
     return render(request, 'QnA/search_form.html')
+>>>>>>> ea5ff522c90771a91eff620bcd174a2c79dae424
 
 
 
@@ -188,13 +192,13 @@ def search_form(request):
 
 def search(request):
     error = False
-    if 'q' in request.GET:
-        q = request.GET['q']
-        if not q:
+    if 'search' in request.GET:
+        search = request.GET['search']
+        if not search:
             error = True
         else:
-            questions = question.objects.filter(title__icontains=q)
-            return render(request, 'QnA/search_results.html', {'questions': questions, 'query': q})
+            questions = question.objects.filter(title__icontains=search)
+            return render(request, 'QnA/search_results.html', {'questions': questions, 'query': search})
     return render(request, 'QnA/search_form.html', {'error': error})
 
 #### End Of Search Module ####

@@ -17,7 +17,6 @@ urlpatterns = [
     path("comment/<int:pk>/solution/", views.SolutionView, name='solution'),
     path("comment/<int:pk>/vote/", views.comment_like, name='vote'),
     path("question/<slug:slug>/<int:pk>/vote/", views.question_like, name='vote_question'),
-    path("QnA/search-form/", views.search_form,name='search-form'),
     path("search/", views.search),
     path("category/<slug:slug>/",QuestionCategory.as_view(),name="category")
     
