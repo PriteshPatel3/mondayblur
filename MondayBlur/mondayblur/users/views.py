@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegisterForm, User, UserUpdateForm, ProfileUpdateForm
-from QnA.models import question
+from QnA.models import comment,question
 from django.views.generic import ListView
+from .models import Reward
 
 def register(request):
     if request.method == "POST":
@@ -49,6 +50,11 @@ def profile(request):
     }
 
     return render(request, 'users/update.html', context)
+
+
+
+    
+
 
 
 
