@@ -19,6 +19,7 @@ class question (models.Model):
     liked_by = models.ManyToManyField(User,related_name='liked_by_question',blank = True)
     like = models.IntegerField(default=0)
     content = models.TextField() #use TextField if there is no limit for the content
+    image = models.ImageField(upload_to="image",blank=True)
     date_published = models.DateTimeField(default=timezone.now) #auto-select the current time
     category = models.ForeignKey(category,on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE) #if the user is deleted the question will be deleted

@@ -16,6 +16,12 @@
 	    </div>
 	    <h2 class="article-title">{{ question.title }}</h2>
 			<p class="article-content">{{ question.content }}</p>
+			{% if question.image %}
+				<div>
+					<a href="{{ question.image.url }}"><img style='width:50%;height: 50%;'src="{{ question.image.url }}"></a>
+				</div>
+			{% endif %}
+
 			<p class="article-content">{{ question.comment }}</p>
 			<div>
 			{% if user in question.liked_by.all %}

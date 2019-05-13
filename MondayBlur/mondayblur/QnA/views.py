@@ -38,7 +38,7 @@ class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class QuestionCreateView(CreateView):
     model = question
-    fields = ['title','content','category']
+    fields = ['title','content','image','category']
 
     def form_valid(self,form):
         form.instance.author = self.request.user
@@ -191,9 +191,6 @@ def search_form(request):
 
 
 
-
-
-
 def search(request):
     error = False
     if 'search' in request.GET:
@@ -201,6 +198,7 @@ def search(request):
         if not search:
             error = True
         else:
+
             questions = question.objects.filter(title__icontains=search)
             return render(request, 'QnA/search_results.html', {'questions': questions, 'query': search})
     return render(request, 'QnA/search_form.html', {'error': error})
