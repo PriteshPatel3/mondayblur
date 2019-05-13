@@ -2,18 +2,15 @@
 {% load static %}
 {% block content%}
 <div class="content-section">
-        <div class="media">
-          <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-          <div class="media-body">
-            <h2 class="account-heading">{{ user.username }}</h2>
-      
-              
-                <p class="text-secondary">Total Reward Points :{{ object.points }}</p>
-
-
-            <hr>
-          </div>
-        </div>
+  <div class="media">
+    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="{{ object.points }}" aria-valuemin="{{ object.points }}" aria-valuemax="200000">{{ object.points }}</div>
       </div>
+      <p class="text-secondary">Total Reward Points :</p>
+    </div>
+  </div>
 </div>
 {% endblock content %}
