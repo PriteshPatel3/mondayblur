@@ -124,7 +124,7 @@ def add_comment(request,pk):
 
 def SolutionView(request,pk):
     post = get_object_or_404(comment,pk=pk)
-    reward = get_object_or_404(Reward,user=request.user)
+    reward = get_object_or_404(Reward,user=post.author)
     if request.method =='POST':
         if post.r_token == False:
             post.r_token = True  
