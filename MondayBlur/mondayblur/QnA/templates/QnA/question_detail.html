@@ -9,8 +9,8 @@
 				<small class="text-muted">{{ question.date_published|date:"F d, Y" }}</small>
 				{% if object.author == user %}
 	      	<div>
-	      		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.slug question.id %}">Update</a>
-				  <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' question.slug question.id %}"><img src="{% static 'Image/delete.png' %}"> Delete</a>
+	      		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.id %}">Update</a>
+				  <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' question.id %}"><img src="{% static 'Image/delete.png' %}"> Delete</a>
 	      	</div>
 	      {% endif %}
 	    </div>
@@ -22,13 +22,13 @@
 						<form method="post">
 							{% csrf_token %}
 							<small>Likes : {{ question.liked_by.count }}</small>
-							<a class="btn" href="{% url 'vote_question' question.slug question.pk %}"><img src="{% static 'Image/dislike.png' %}"> dislike</a>
+							<a class="btn" href="{% url 'vote_question' question.pk %}"><img src="{% static 'Image/dislike.png' %}"> dislike</a>
 						</form>
 					{% else %}
 						<form method="post">
 							{% csrf_token %}
 							<small>Likes : {{ question.liked_by.count }}</small>
-							<a class="btn" href="{% url 'vote_question' question.slug question.pk %}"><img src="{% static 'Image/like.png' %}"> Like</a>
+							<a class="btn" href="{% url 'vote_question' question.pk %}"><img src="{% static 'Image/like.png' %}"> Like</a>
 						</form>
 					{% endif %}
 			</div>
@@ -94,7 +94,7 @@
 			{% empty %}
 				<p>There is no comment</p>
 			{% endfor %}
-			<a href="{% url 'add-comment' question.slug question.pk %}">Leave A Comment</a>
+			<a href="{% url 'add-comment' question.pk %}">Leave A Comment</a>
 			<br>
 	  </div>
 	</article>

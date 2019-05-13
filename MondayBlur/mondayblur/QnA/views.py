@@ -38,7 +38,7 @@ class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class QuestionCreateView(CreateView):
     model = question
-    fields = ['title','slug','content','category']
+    fields = ['title','content','category']
 
     def form_valid(self,form):
         form.instance.author = self.request.user
@@ -98,8 +98,8 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-def add_comment(request,slug,pk):
-    post = get_object_or_404(question,slug=slug,pk=pk)
+def add_comment(request,pk):
+    post = get_object_or_404(question,pk=pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         form.instance.author = request.user
@@ -108,7 +108,7 @@ def add_comment(request,slug,pk):
             comment.post = post
             comment.save()
             messages.success(request,f'You have successfully posted your comment!')
-            return redirect('question-detail',slug=slug,pk=pk)
+            return redirect('question-detail',pk=pk)
     else:
         form = CommentForm()
 
@@ -141,8 +141,8 @@ def SolutionView(request,pk):
     
     return render(request,'QnA/solution_form.html')
 
-def question_like(request,pk,slug):
-    post = get_object_or_404(question,pk=pk,slug=slug)
+def question_like(request,pk):
+    post = get_object_or_404(question,pk=pk)
     if request.method == 'POST':
         if post.liked_by.filter(id=request.user.id).exists():
             post.liked_by.remove(request.user)
