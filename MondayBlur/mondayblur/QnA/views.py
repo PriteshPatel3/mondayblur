@@ -178,13 +178,10 @@ def comment_like(request,pk):
 #### End Of Reward Module ###
 
 
-<<<<<<< HEAD
 
-=======
-#### Search Module ####
 def search_form(request):
     return render(request, 'QnA/search_form.html')
->>>>>>> ea5ff522c90771a91eff620bcd174a2c79dae424
+
 
 
 
