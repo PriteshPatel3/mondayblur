@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.views.generic import ListView,TemplateView,DetailView,CreateView,UpdateView,DeleteView
 from django.shortcuts import render
 from django.http import HttpResponse
+from users.models import Reward
 
 def home(request):
     context={
@@ -123,13 +124,19 @@ def add_comment(request,slug,pk):
 
 def SolutionView(request,pk):
     post = get_object_or_404(comment,pk=pk)
+    reward = get_object_or_404(Reward,user=request.user)
     if request.method =='POST':
         if post.r_token == False:
-            post.r_token = True
+            post.r_token = True  
+            reward.points += 10
             post.save()
+            reward.save()
         else:
             post.r_token = False
+            reward.points -= 10
             post.save()
+            reward.save()
+
         return redirect('qna')
     
     return render(request,'QnA/solution_form.html')

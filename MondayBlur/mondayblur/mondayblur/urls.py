@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from users import views
 from django.contrib.auth import views as auth_views
-from users.views import ProfileListView, profile
+from users.views import ProfileListView, profile,RewardView
 from mondayblur import settings
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,5 +30,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('profile/update/', views.profile, name='profile_update'),
+    path('reward/<int:pk>/',RewardView.as_view(),name='reward')
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

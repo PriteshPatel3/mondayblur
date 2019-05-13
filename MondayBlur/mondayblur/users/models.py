@@ -11,11 +11,14 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
+                                                                                                                                                                                                                                                                                           
 #database for points
 class Reward(models.Model): 
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
     
 

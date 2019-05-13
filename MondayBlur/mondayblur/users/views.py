@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegisterForm, User, UserUpdateForm, ProfileUpdateForm
 from QnA.models import comment,question
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from .models import Reward
 
 def register(request):
@@ -26,6 +26,8 @@ class ProfileListView(ListView):
     ordering = ['-date_published']
     paginate_by = 5
 
+class RewardView(DetailView):
+    model = Reward  
 
 @login_required
 def profile(request):
