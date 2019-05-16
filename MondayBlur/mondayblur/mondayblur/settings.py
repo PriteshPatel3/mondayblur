@@ -132,3 +132,11 @@ MEDIA_URL = '/media/'
 #chnages default path of login to qna site
 LOGIN_REDIRECT_URL = 'qna'
 LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 1025
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'pkcube3@gmail.com'
+#EMAIL_HOST_PASSWORD = 'ftnjpjbrhorfdaxc'
+#EMAIL_HOST_PASSWORD = 'kelvin666@'
