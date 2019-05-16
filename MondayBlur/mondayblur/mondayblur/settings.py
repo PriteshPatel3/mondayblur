@@ -134,9 +134,8 @@ LOGIN_REDIRECT_URL = 'qna'
 LOGIN_URL = 'login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'localhost'
-#EMAIL_PORT = 1025
-#EMAIL_USE_TLS = True
-#EMAIL_HOST_USER = 'pkcube3@gmail.com'
-#EMAIL_HOST_PASSWORD = 'ftnjpjbrhorfdaxc'
-#EMAIL_HOST_PASSWORD = 'kelvin666@'
+EMAIL_HOST ='smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "pkcube666@gmail.com"
+EMAIL_HOST_PASSWORD = "1997913123a" 
