@@ -31,7 +31,7 @@ class question (models.Model):
     def get_absolute_url(self):
         return reverse('qna')
 
-
+   
 
 class comment(models.Model):
     post = models.ForeignKey(question,on_delete=models.CASCADE,related_name="comments")
@@ -53,6 +53,8 @@ class comment(models.Model):
     
     def get_absolute_url(self):
         return reverse('qna')
+
+
 
 
 

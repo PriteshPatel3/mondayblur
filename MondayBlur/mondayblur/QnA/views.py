@@ -143,15 +143,20 @@ def SolutionView(request,pk):
 
 def question_like(request,pk):
     post = get_object_or_404(question,pk=pk)
+    reward = get_object_or_404(Reward,user=post.author)
     if request.method == 'POST':
         if post.liked_by.filter(id=request.user.id).exists():
             post.liked_by.remove(request.user)
             post.like -= 1
             post.save()
+            reward.points -= 1
+            reward.save()
         else:
             post.liked_by.add(request.user)
             post.like += 1
             post.save()
+            reward.points += 1
+            reward.save()
         return redirect('qna')
     
     context={
@@ -163,16 +168,21 @@ def question_like(request,pk):
 
 def comment_like(request,pk):
     post = get_object_or_404(comment,pk=pk)
+    reward = get_object_or_404(Reward,user=post.author)
     if request.method == 'POST':
         if post.liked_by.filter(id=request.user.id).exists():
             post.liked_by.remove(request.user)
             post.like -= 1
             post.save()
+            reward.points -= 1
+            reward.save()
         else:
             post.liked_by.add(request.user)
 
             post.like += 1
             post.save()
+            reward.points += 1
+            reward.save()
         return redirect('qna')
     
     context={
