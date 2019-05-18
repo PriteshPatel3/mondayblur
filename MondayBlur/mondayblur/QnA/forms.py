@@ -11,3 +11,6 @@ class SolutionForm(forms.ModelForm):
     class Meta:
         model = comment
         fields = ['r_token']
+
+
+			

@@ -18,9 +18,8 @@ urlpatterns = [
     path("comment/<int:pk>/vote/", views.comment_like, name='vote'),
     path("question/<int:pk>/vote/", views.question_like, name='vote_question'),
     path("search/", views.search),
-    path("category/<slug:slug>/",QuestionCategory.as_view(),name="category")
-    
-    
+    path("category/<slug:slug>/",QuestionCategory.as_view(),name="category"),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

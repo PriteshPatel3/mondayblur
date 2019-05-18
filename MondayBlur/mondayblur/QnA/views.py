@@ -100,6 +100,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def add_comment(request,pk):
     post = get_object_or_404(question,pk=pk)
+    reward = get_object_or_404(Reward,user=post.author)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         form.instance.author = request.user
@@ -120,6 +121,7 @@ def add_comment(request,pk):
 
 #### End Of Comment Module ###
 
+
 #### Reward Module ####
 
 def SolutionView(request,pk):
@@ -127,19 +129,41 @@ def SolutionView(request,pk):
     reward = get_object_or_404(Reward,user=post.author)
     if request.method =='POST':
         if post.r_token == False:
-            post.r_token = True  
-            reward.points += 10
+            post.r_token = True 
+            reward.accu_rtoken += 1 
+            reward.points += 10.0
+            try: 
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
+            except ZeroDivisionError: 
+                reward.accu_rtoken_percentage = 0
+                reward.accu_quest_likes_percentage = 0
+                reward.accu_comment_likes_percentage = 0
+            post.save()
             post.save()
             reward.save()
         else:
             post.r_token = False
-            reward.points -= 10
+            reward.accu_rtoken -= 1
+            reward.points -= 10.0
+            try:
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
+            except ZeroDivisionError:
+                reward.accu_rtoken_percentage = 0
+                reward.accu_quest_likes_percentage = 0
+                reward.accu_comment_likes_percentage = 0
             post.save()
             reward.save()
-
         return redirect('qna')
     
     return render(request,'QnA/solution_form.html')
+
+#### End Of Reward Module ###
+
+#### Question Likes Module ####
 
 def question_like(request,pk):
     post = get_object_or_404(question,pk=pk)
@@ -148,14 +172,32 @@ def question_like(request,pk):
         if post.liked_by.filter(id=request.user.id).exists():
             post.liked_by.remove(request.user)
             post.like -= 1
-            post.save()
             reward.points -= 1
+            reward.accu_quest_likes -= 1
+            try:
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
+            except ZeroDivisionError: 
+                reward.accu_rtoken_percentage = 0
+                reward.accu_quest_likes_percentage = 0
+                reward.accu_comment_likes_percentage = 0
+            post.save()
             reward.save()
         else:
             post.liked_by.add(request.user)
             post.like += 1
-            post.save()
             reward.points += 1
+            reward.accu_quest_likes += 1
+            try:
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
+            except ZeroDivisionError:
+                reward.accu_rtoken_percentage = 0
+                reward.accu_quest_likes_percentage = 0
+                reward.accu_comment_likes_percentage = 0
+            post.save()
             reward.save()
         return redirect('qna')
     
@@ -163,8 +205,11 @@ def question_like(request,pk):
 
     }
 
-
     return render(request,'QnA/questionlike_form.html',context)
+
+#### End Of Question Likes Module ###
+
+#### CommentLikes Module ####
 
 def comment_like(request,pk):
     post = get_object_or_404(comment,pk=pk)
@@ -173,15 +218,32 @@ def comment_like(request,pk):
         if post.liked_by.filter(id=request.user.id).exists():
             post.liked_by.remove(request.user)
             post.like -= 1
-            post.save()
             reward.points -= 1
+            reward.accu_comment_likes -= 1
+            try: 
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
+            except ZeroDivisionError:
+                reward.accu_rtoken_percentage = 0
+                reward.accu_quest_likes_percentage = 0
+                reward.accu_comment_likes_percentage = 0
+            post.save()
             reward.save()
         else:
             post.liked_by.add(request.user)
-
             post.like += 1
-            post.save()
             reward.points += 1
+            reward.accu_comment_likes += 1
+            try:
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
+            except ZeroDivisionError:
+                reward.accu_rtoken_percentage = 0
+                reward.accu_quest_likes_percentage = 0
+                reward.accu_comment_likes_percentage = 0    
+            post.save()
             reward.save()
         return redirect('qna')
     
@@ -192,9 +254,10 @@ def comment_like(request,pk):
 
     return render(request,'QnA/like_form.html',context)
 
-#### End Of Reward Module ###
+#### End Of Comment Likes Module ###
 
 
+#### Search Module ###
 
 def search_form(request):
     return render(request, 'QnA/search_form.html')
@@ -216,8 +279,6 @@ def search(request):
 #### End Of Search Module ####
     
 
-
-    
         
 
 

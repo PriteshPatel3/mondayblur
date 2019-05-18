@@ -16,6 +16,13 @@ class Profile(models.Model):
 class Reward(models.Model): 
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
+    accu_quest_likes = models.IntegerField(default=0)
+    accu_comment_likes = models.IntegerField(default=0)
+    accu_rtoken = models.IntegerField(default=0)
+    accu_quest_likes_percentage = models.FloatField(default=0)
+    accu_comment_likes_percentage = models.FloatField(default=0)
+    accu_rtoken_percentage = models.FloatField(default=0)
+    
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
