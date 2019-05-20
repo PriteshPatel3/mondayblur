@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mathfilters',
+    'channels',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mondayblur.wsgi.application'
 
-
+# Channels
+ASGI_APPLICATION = 'mondayblur.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
