@@ -8,7 +8,7 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+    <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br/>
     <input id="chat-message-input" type="text" size="100"/><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
 </body>
@@ -22,7 +22,9 @@
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
-        document.querySelector('#chat-log').value += (message + '\n');
+        var receive_user = data['user'];
+        var user = "{{user}}";
+        document.querySelector('#chat-log').value += ('Anonymous : ' + message + '\n');
     };
 
     chatSocket.onclose = function(e) {
