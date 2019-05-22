@@ -5,7 +5,7 @@ from .forms import UserRegisterForm, User, UserUpdateForm, ProfileUpdateForm
 from QnA.models import comment,question
 from django.views.generic import ListView,DetailView
 from .models import Reward
-
+# tells backend how to show template and process info from template
 def register(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)

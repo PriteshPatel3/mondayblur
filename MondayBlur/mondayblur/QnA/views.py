@@ -20,53 +20,55 @@ def home(request):
 #### Question Module ####
 
 class QuestionListView(ListView):
-    model = question
-    template_name = 'QnA/question.html'
-    context_object_name = 'question'
-    ordering = ['-date_published']
-    paginate_by = 5
+    model = question #choosing the database 
+    template_name = 'QnA/question.html' #specifying the template
+    context_object_name = 'question' #the object name in the template
+    ordering = ['-date_published'] #to arrange the post from the latest date published
+    paginate_by = 5 #to limit 5 question per page
 
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = question
-    success_url ='/QnA/'
+    model = question #choosing the database 
+    success_url ='/QnA/' #the redirect after any action is done successfully
 
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.author:
+    def test_func(self): #to test the user input 
+        post = self.get_object() #to get data from the model question
+        if self.request.user == post.author: #to check whether the requesting user is the question author
             return True
         return False
 
 class QuestionCreateView(CreateView):
-    model = question
-    fields = ['title','content','image','category']
+    model = question #choosing the database
+    fields = ['title','content','image','category'] #to specify what user needs to input
 
-    def form_valid(self,form):
-        form.instance.author = self.request.user
+    def form_valid(self,form): #this is needed to tell the server what to do after the form is valid
+        form.instance.author = self.request.user #the author of the new question is the user requesting the new post
         return super().form_valid(form)
 
-class QuestionDetailView(DetailView):
-    model = question
+class QuestionDetailView(DetailView): 
+    model = question #choosing the database
 
 
 class QuestionUpdateView(UpdateView):
-    model = question
-    fields = ['title','content','image']
+    model = question #choosing the database
+    fields = ['title','content','image'] #to specify what user needs to input
     
-    def form_valid(self,form):
-        form.instance.author = self.request.user
+    def form_valid(self,form): #this is needed to tell the server what to do after the form is valid
+        form.instance.author = self.request.user #the author will be the one requesting the changes
         return super().form_valid(form)
 
 class QuestionCategory(ListView):
-    model = question
-    template_name='QnA/category.html'
+    model = question #choosing the database 
+    template_name='QnA/category.html' #specifying the template
+    ordering = ['-date_published'] #to arrange the post from the latest date published
+    paginate_by = 5 #to limit 5 question per page
 
-    def get_queryset(self):
-        self.Category = get_object_or_404(category,slug=self.kwargs['slug'])
-        return question.objects.filter(category=self.Category)
+    def get_queryset(self): #determines the list of objects that you want to display
+        self.Category = get_object_or_404(category,slug=self.kwargs['slug']) #it will try to get the category from database which has the same slug as the requesting slug
+        return question.objects.filter(category=self.Category) #it will filter the question which is having the same slug as the requesting slug
 
-    def get_context_data(self,**kwargs):
-        context = super(QuestionCategory,self).get_context_data(**kwargs)
-        context['category']= self.Category
+    def get_context_data(self,**kwargs):#to retrieve the data in list form (question_list)
+        context = super(QuestionCategory,self).get_context_data(**kwargs) #to get data from the parent class QuestionCategory I used **kwargs is needed so that it will pass in variable that is not yet defined
+        context['category']= self.Category #it will return the question in a list form
         return context
 
 #### End of Question Module ###
