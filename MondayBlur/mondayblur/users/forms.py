@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-
+#create form and tell what you expect from it 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     #gives nested name space for configuration (keeps config in 1 place)
