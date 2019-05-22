@@ -21,6 +21,8 @@
 
 		  </div>
 		</article>
+	{% empty %}
+	<h1>There are currently no question in {{ category.category }}</h1>
 	{% endfor %}
 	{% if is_paginated %}
 

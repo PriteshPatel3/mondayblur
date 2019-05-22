@@ -10,7 +10,7 @@
 				{% if object.author == user %}
 	      	<div>
 	      		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' question.id %}">Update</a>
-				  <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' question.id %}"><img src="{% static 'Image/delete.png' %}"> Delete</a>
+				  <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' question.id %}"><img src="{% static 'Image/delete.png' %}"></a>
 	      	</div>
 	      {% endif %}
 	    </div>
@@ -46,7 +46,9 @@
 					<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
 					{% if comment.author == user %}
 						<div>
+							
 							<a class="btn btn-danger btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px" href="{% url 'comment-delete' comment.id %}"><img src="{% static 'Image/delete.png' %}"></a>
+							<a class="btn btn-secondary btn-sm mt-1 mb-1" style="float:right;position: relative; bottom:70px;right: 5px;" href="{% url 'comment-update' comment.id %}">Update</a>
 						</div>
 					{% endif %}
 
