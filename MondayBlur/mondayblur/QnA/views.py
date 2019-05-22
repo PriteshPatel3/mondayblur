@@ -141,7 +141,6 @@ def SolutionView(request,pk):
                 reward.accu_quest_likes_percentage = 0
                 reward.accu_comment_likes_percentage = 0
             post.save()
-            post.save()
             reward.save()
         else:
             post.r_token = False
