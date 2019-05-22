@@ -4,13 +4,13 @@ from QnA.models import comment
 #a place to communicate with database
 #tells how the data structure should be in db
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default="default.png", upload_to="profile_pics")
+    user = models.OneToOneField(User, on_delete=models.CASCADE) #make sure no duplicate username 
+    image = models.ImageField(default="default.png", upload_to="profile_pics") #specify this is image
     
-    def __str__(self):
+    def __str__(self):#make data in database readable 
         return f"{self.user.username} Profile"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):#saves user profile
         super().save(*args, **kwargs)
                                                                                                                                                                                                                                                                                          
 #database for points

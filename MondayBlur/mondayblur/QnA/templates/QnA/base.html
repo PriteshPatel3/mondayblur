@@ -50,7 +50,7 @@
 	          {% if user.is_authenticated %}
 						<a class="nav-item nav-link" href="{% url 'profile' %}"><img class="rounded-circle article-img" style="width:30px;height:30px"src="{{ user.profile.image.url }}">Profile</a>
 						<a class="nav-item nav-link" href="/chat/">Chat</a>
-						<a class="nav-item nav-link" href="{% url 'new-question' %}"><span class="glyphicon glyphicon-user"></span>New Post</a>
+						<a class="nav-item nav-link" href="{% url 'new-question' %}"><span class="glyphicon glyphicon-user"></span>New Question</a>
 						<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
 						
 	          {% else %}
