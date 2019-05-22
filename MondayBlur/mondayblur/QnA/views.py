@@ -258,8 +258,7 @@ def comment_like(request,pk):
 
 #### Search Module ###
 
-def search_form(request):
-    return render(request, 'QnA/search_form.html')
+
 
 
 
