@@ -8,7 +8,7 @@ class category (models.Model):
     category = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100,unique=True)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self): #this is needed so because the slug for each category is different, hence this is needed to specify the args for the url
         return reverse('category',args=[self.slug])
 
     def __str__(self):
@@ -47,7 +47,6 @@ class comment(models.Model):
         self.approved = True
         self.save()
 
-        return liked
     def __str__(self):
         return self.comment
     
