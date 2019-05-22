@@ -8,23 +8,19 @@
     <title>Chat Rooms</title>
 </head>
 <body>
-    What chat room would you like to enter?<br/>
-    <input id="room-name-input" type="text" size="100"/><br/>
-    <input id="room-name-submit" type="button" value="Enter"/>
+    Please select the chat room you wish to enter.
+    <ul class="list-group" style="text-align:center">
+            <a class="list-group-item list-group-item-light" href="/chat/lobby1/">Lobby 1</a>
+            <a class="list-group-item list-group-item-light" href="/chat/lobby2/">Lobby 2</a>
+            <a class="list-group-item list-group-item-light" href="/chat/lobby3/">Lobby 3</a>
+            <a class="list-group-item list-group-item-light" href="/chat/MMUChitChatArea/">MMU Chit Chat Area</a>
+            <a class="list-group-item list-group-item-light" href="/chat/music/">Music</a>
+            <a class="list-group-item list-group-item-light" href="/chat/cat/">I love cat</a>
+            <a class="list-group-item list-group-item-light" href="/chat/consultation/">Consultation</a>
+            <a class="list-group-item list-group-item-light" href="/chat/gaming/">Gaming Chat Channel</a>
+            <a class="list-group-item list-group-item-light" href="/chat/studytips/">Study Tips Sharing</a>
+    </ul>
 
-    <script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
-
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
-    </script>
 </body>
 </html>
 {% endblock content %}
