@@ -276,21 +276,17 @@ def comment_like(request,pk):
 
 #### Search Module ###
 
-
-
-
-
 def search(request):
-    error = False
-    if 'search' in request.GET:
-        search = request.GET['search']
-        if not search:
-            error = True
+    error = False # Initially no error
+    if 'search' in request.GET: # To check there is ‘search’ exist in request.GET/Verify that there is non-empty value  
+        search = request.GET['search'] # To Define that search is in the request.GET
+        if not search: # If submit empty value
+            error = True # It will display error messages
         else:
 
-            questions = question.objects.filter(title__icontains=search)
+            questions = question.objects.filter(title__icontains=search) # It will show/filter questions based on the keyword
             return render(request, 'QnA/search_results.html', {'questions': questions, 'query': search})
-    return render(request, 'QnA/search_form.html', {'error': error})
+    return render(request, 'QnA/search_form.html', {'error': error}) 
 
 #### End Of Search Module ####
     
