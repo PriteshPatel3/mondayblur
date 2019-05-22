@@ -50,7 +50,7 @@ class QuestionDetailView(DetailView):
 
 class QuestionUpdateView(UpdateView):
     model = question
-    fields = ['title','content']
+    fields = ['title','content','image']
     
     def form_valid(self,form):
         form.instance.author = self.request.user
