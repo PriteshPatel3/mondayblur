@@ -143,7 +143,6 @@ def SolutionView(request,pk):
                 reward.accu_quest_likes_percentage = 0
                 reward.accu_comment_likes_percentage = 0
             post.save()
-            post.save()
             reward.save()
         else:
             post.r_token = False
@@ -261,8 +260,7 @@ def comment_like(request,pk):
 
 #### Search Module ###
 
-def search_form(request):
-    return render(request, 'QnA/search_form.html')
+
 
 
 
