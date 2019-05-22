@@ -41,11 +41,6 @@ class comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_published = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
-    approved = models.BooleanField(default=False)
-
-    def approved(self):
-        self.approved = True
-        self.save()
 
     def __str__(self):
         return self.comment
