@@ -8,6 +8,7 @@ from django.views.generic import ListView,TemplateView,DetailView,CreateView,Upd
 from django.shortcuts import render
 from django.http import HttpResponse
 from users.models import Reward
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     context={
@@ -100,6 +101,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+@login_required
 def add_comment(request,pk):
     post = get_object_or_404(question,pk=pk)
     reward = get_object_or_404(Reward,user=post.author)
