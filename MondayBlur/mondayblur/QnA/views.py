@@ -50,7 +50,7 @@ class QuestionDetailView(DetailView):
 
 class QuestionUpdateView(UpdateView):
     model = question
-    fields = ['title','content']
+    fields = ['title','content','image']
     
     def form_valid(self,form):
         form.instance.author = self.request.user
@@ -140,7 +140,6 @@ def SolutionView(request,pk):
                 reward.accu_rtoken_percentage = 0
                 reward.accu_quest_likes_percentage = 0
                 reward.accu_comment_likes_percentage = 0
-            post.save()
             post.save()
             reward.save()
         else:
