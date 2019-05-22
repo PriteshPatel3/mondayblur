@@ -4,14 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 #create form and tell what you expect from it 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField() #specify that this is for email
     #gives nested name space for configuration (keeps config in 1 place)
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
 class UserUpdateForm(forms.ModelForm):
-     email = forms.EmailField()
+     email = forms.EmailField() 
      class Meta:
          model = User
          fields = ['username', 'email']
