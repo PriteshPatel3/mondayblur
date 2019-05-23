@@ -41,7 +41,7 @@
 			<hr>
 			{% for comment in question.comments.all %}
 				{% if comment.r_token == False %}
-					<img class="rounded-circle article-img" src="">
+					<img class="rounded-circle article-img" src="{{ comment.author.profile.image.url }}">
 					<a class="mr-2" href="#">{{ comment.author }}</a>
 					<small class="text-muted">{{ comment.date_published|date:"F d, Y" }}</small>
 					{% if comment.author == user %}

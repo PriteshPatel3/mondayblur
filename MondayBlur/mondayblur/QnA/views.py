@@ -118,7 +118,6 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
 @login_required
 def add_comment(request,pk):
     post = get_object_or_404(question,pk=pk)
-    reward = get_object_or_404(Reward,user=post.author)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         form.instance.author = request.user
