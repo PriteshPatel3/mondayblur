@@ -142,133 +142,128 @@ def add_comment(request,pk):
 #### Reward Module ####
 
 def SolutionView(request,pk):
-    post = get_object_or_404(comment,pk=pk)
-    reward = get_object_or_404(Reward,user=post.author)
-    if request.method =='POST':
-        if post.r_token == False:
-            post.r_token = True 
-            reward.accu_rtoken += 1 
-            reward.points += 10.0
+    post = get_object_or_404(comment,pk=pk) #get the specific comment
+    reward = get_object_or_404(Reward,user=post.author) #get the reward module of the user
+    if request.method =='POST': #to check the request.method
+        if post.r_token == False: #to check the status of the comment, if the comment is not the solution, make it become solution
+            post.r_token = True # the comment has been selected as solution
+            reward.accu_rtoken += 1 #number of accummulate rtoken plus 1
+            reward.points += 10.0 #reward points plus 10
             try: 
-                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
-                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
-                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
-            except ZeroDivisionError: 
-                reward.accu_rtoken_percentage = 0
-                reward.accu_quest_likes_percentage = 0
-                reward.accu_comment_likes_percentage = 0
-            post.save()
-            reward.save()
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2) #calculate accummulate r_token percentage
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)#calculate accummulate question like percentage
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)#calculate accummulate comment like percentage
+            except ZeroDivisionError: # to avoid math error if the reward points is equal to 0
+                reward.accu_rtoken_percentage = 0 #accummulate r_token percentage=0
+                reward.accu_quest_likes_percentage = 0 #accummulate question like percentage=0
+                reward.accu_comment_likes_percentage = 0 #accummulate comment like percentage=0
+            post.save() #save the changes you make to the comment module
+            reward.save() #save the changes you make to thee reward module
         else:
-            post.r_token = False
-            reward.accu_rtoken -= 1
-            reward.points -= 10.0
+            post.r_token = False #to check the status of the comment,if the comment is the solution, make ot become not solution
+            reward.accu_rtoken -= 1 #number of accummulate rtoken minus 1
+            reward.points -= 10.0 #reward points minus 10
             try:
-                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
-                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
-                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
-            except ZeroDivisionError:
-                reward.accu_rtoken_percentage = 0
-                reward.accu_quest_likes_percentage = 0
-                reward.accu_comment_likes_percentage = 0
-            post.save()
-            reward.save()
-        return redirect('qna')
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2) #calculate accummulate r_token percentage
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2) #calculate accummulate question like percentage
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2) #calculate accummulate comment like percentage
+            except ZeroDivisionError:  # to avoid math error if the reward points is equal to 0
+                reward.accu_rtoken_percentage = 0 #accummulate r_token percentage=0
+                reward.accu_quest_likes_percentage = 0 #accummulate question like percentage=0
+                reward.accu_comment_likes_percentage = 0 #accummulate comment like percentage=0
+            post.save() #save the changes you make to the comment module
+            reward.save() #save the changes you make to the reward module
+        return redirect('qna') #go back question page
     
-    return render(request,'QnA/solution_form.html')
+    return render(request,'QnA/solution_form.html') #go to solution.html page
 
 #### End Of Reward Module ###
 
 #### Question Likes Module ####
 
 def question_like(request,pk):
-    post = get_object_or_404(question,pk=pk)
-    reward = get_object_or_404(Reward,user=post.author)
-    if request.method == 'POST':
-        if post.liked_by.filter(id=request.user.id).exists():
-            post.liked_by.remove(request.user)
-            post.like -= 1
-            reward.points -= 1
-            reward.accu_quest_likes -= 1
+    post = get_object_or_404(question,pk=pk) #get the specific question
+    reward = get_object_or_404(Reward,user=post.author) #get the reward module of the user
+    if request.method == 'POST': #to check the request.method
+        if post.liked_by.filter(id=request.user.id).exists(): #To check whether the user has liked the question or not
+            post.liked_by.remove(request.user) #if the user has liked the question, make it become dislike
+            post.like -= 1 # the number of question like minus 1
+            reward.points -= 1 # the number of reward points minus 1
+            reward.accu_quest_likes -= 1 #the number of accummulate question likes minus 1
             try:
-                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
-                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
-                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
-            except ZeroDivisionError: 
-                reward.accu_rtoken_percentage = 0
-                reward.accu_quest_likes_percentage = 0
-                reward.accu_comment_likes_percentage = 0
-            post.save()
-            reward.save()
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2) #calculate accummulate r_token percentage
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2) #calculate accummulate question like percentage
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2) #calculate accummulate comment like percentage
+            except ZeroDivisionError: # to avoid math error if the reward points is equal to 0
+                reward.accu_rtoken_percentage = 0 #accummulate r_token percentage=0
+                reward.accu_quest_likes_percentage = 0 #accummulate question like percentage=0
+                reward.accu_comment_likes_percentage = 0 #accummulate comment like percentage=0
+            post.save() #save the changes you make to the comment module
+            reward.save() #save the changes you make to thee reward module
         else:
-            post.liked_by.add(request.user)
-            post.like += 1
-            reward.points += 1
-            reward.accu_quest_likes += 1
+            post.liked_by.add(request.user) #if the user has not like the question yet, make it become like
+            post.like += 1 # the number of question like plus 1
+            reward.points += 1 # the number of reward points plus 1
+            reward.accu_quest_likes += 1 #the number of accummulate question likes plus 1
             try:
-                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
-                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
-                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
-            except ZeroDivisionError:
-                reward.accu_rtoken_percentage = 0
-                reward.accu_quest_likes_percentage = 0
-                reward.accu_comment_likes_percentage = 0
-            post.save()
-            reward.save()
-        return redirect('qna')
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2) #calculate accummulate r_token percentage
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2) #calculate accummulate question like percentage
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2) #calculate accummulate comment like percentage
+            except ZeroDivisionError:# to avoid math error if the reward points is equal to 0
+                reward.accu_rtoken_percentage = 0 #accummulate r_token percentage=0
+                reward.accu_quest_likes_percentage = 0 #accummulate question like percentage=0
+                reward.accu_comment_likes_percentage = 0 #accummulate comment like percentage=0
+            post.save() #save the changes you make to the comment module
+            reward.save() #save the changes you make to the reward module
+        return redirect('qna') #go back question page
     
-    context={
 
-    }
-
-    return render(request,'QnA/questionlike_form.html',context)
+    return render(request,'QnA/questionlike_form.html') #go to question like.html page
 
 #### End Of Question Likes Module ###
 
 #### CommentLikes Module ####
 
 def comment_like(request,pk):
-    post = get_object_or_404(comment,pk=pk)
-    reward = get_object_or_404(Reward,user=post.author)
-    if request.method == 'POST':
-        if post.liked_by.filter(id=request.user.id).exists():
-            post.liked_by.remove(request.user)
-            post.like -= 1
-            reward.points -= 1
-            reward.accu_comment_likes -= 1
+    post = get_object_or_404(comment,pk=pk) #get the specific comment
+    reward = get_object_or_404(Reward,user=post.author) #get the reward module of the user
+    if request.method == 'POST': #to check the request.method
+        if post.liked_by.filter(id=request.user.id).exists(): #To check whether the user has liked the comment or not
+            post.liked_by.remove(request.user) #if the user has liked the comment, make it become dislike
+            post.like -= 1 # the number of comment like minus 1
+            reward.points -= 1 # the number of reward points minus 1
+            reward.accu_comment_likes -= 1 #the number of accummulate comment likes minus 1
             try: 
-                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
-                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
-                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
-            except ZeroDivisionError:
-                reward.accu_rtoken_percentage = 0
-                reward.accu_quest_likes_percentage = 0
-                reward.accu_comment_likes_percentage = 0
-            post.save()
-            reward.save()
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2) #calculate accummulate r_token percentage
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2) #calculate accummulate question like percentage
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2) #calculate accummulate comment like percentage
+            except ZeroDivisionError: # to avoid math error if the reward points is equal to 0
+                reward.accu_rtoken_percentage = 0 #accummulate r_token percentage=0
+                reward.accu_quest_likes_percentage = 0 #accummulate question like percentage=0
+                reward.accu_comment_likes_percentage = 0 #accummulate comment like percentage=0
+            post.save() #save the changes you make to the comment module
+            reward.save() #save the changes you make to the reward module
         else:
-            post.liked_by.add(request.user)
-            post.like += 1
-            reward.points += 1
-            reward.accu_comment_likes += 1
+            post.liked_by.add(request.user) #if the user has not like the comment yet, make it become like
+            post.like += 1 # the number of comment like plus 1
+            reward.points += 1 # the number of reward points plus 1
+            reward.accu_comment_likes += 1 #the number of accummulate comment likes plus 1
             try:
-                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2)
-                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2)
-                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2)
-            except ZeroDivisionError:
-                reward.accu_rtoken_percentage = 0
-                reward.accu_quest_likes_percentage = 0
-                reward.accu_comment_likes_percentage = 0    
-            post.save()
-            reward.save()
-        return redirect('qna')
+                reward.accu_rtoken_percentage = round(((reward.accu_rtoken*10)/reward.points)*100,2) #calculate accummulate r_token percentage
+                reward.accu_quest_likes_percentage = round(((reward.accu_quest_likes)/reward.points)*100,2) #calculate accummulate question like percentage
+                reward.accu_comment_likes_percentage = round(((reward.accu_comment_likes)/reward.points)*100,2) #calculate accummulate comment like percentage
+            except ZeroDivisionError:# to avoid math error if the reward points is equal to 0
+                reward.accu_rtoken_percentage = 0 #accummulate r_token percentage=0
+                reward.accu_quest_likes_percentage = 0 #accummulate question like percentage=0
+                reward.accu_comment_likes_percentage = 0 #accummulate comment like percentage=0   
+            post.save() #save the changes you make to the comment module
+            reward.save()#save the changes you make to the reward module
+        return redirect('qna') #go back question page
     
-    context={
+    
 
-    }
+    return render(request,'QnA/like_form.html') #go to question like.html page
 
-
-    return render(request,'QnA/like_form.html',context)
 
 #### End Of Comment Likes Module ###
 
